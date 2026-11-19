@@ -461,14 +461,21 @@ export default function GuidedWorkflow() {
   ];
 
 
-  // Stepper display state (same completion rule as before): current = the open step, done = completed and not open.
-  const stepState = (st) => {
-    const isActive = currentStep === st.num;
-    const isCompleted = currentStep > st.num || (st.num === 2 && (client?.proposalDocUrl || client?.proposalStatus === 'Approved')) || (st.num === 1 && client?.name);
-    return isActive ? 'current' : isCompleted ? 'done' : 'upcoming';
-  };
+  // Step 4 is complete once the live-site audit has returned its report (the same report the step shows as 'Audit complete')
+  const auditDone = (() => {
+    const r = client?.auditReport || client?.audit_report || null;
+    return Boolean(r && typeof r === 'object' && Object.keys(r).length > 0);
+  })();
+  // A step is done by its own rule, whether or not it is the open one; the open step keeps its highlight.
+  const isStepDone = (st) => Boolean(
+    currentStep > st.num ||
+    (st.num === 1 && client?.name) ||
+    (st.num === 2 && (client?.proposalDocUrl || client?.proposalStatus === 'Approved')) ||
+    (st.num === 4 && auditDone)
+  );
+  const stepState = (st) => (isStepDone(st) ? 'done' : currentStep === st.num ? 'current' : 'upcoming');
   const activeStep = steps.find((st) => st.num === currentStep) || steps[0];
-  const doneCount = steps.filter((st) => stepState(st) === 'done').length;
+  const doneCount = steps.filter(isStepDone).length;
 
   return (
     <div className="space-y-5 sm:space-y-6 max-w-6xl mx-auto pb-16">
@@ -542,17 +549,17 @@ export default function GuidedWorkflow() {
                 <button
                   type="button"
                   onClick={() => handleStepClick(st.num)}
-                  aria-current={state === 'current' ? 'step' : undefined}
+                  aria-current={currentStep === st.num ? 'step' : undefined}
                   className="flex items-center gap-2.5 min-w-0 rounded-xl px-2 py-2 text-left hover:bg-hover transition-colors duration-150"
                 >
                   <StepDot state={state} n={st.num} />
                   <span className="min-w-0">
                     <span className={cx('block text-[13px] leading-5 truncate',
-                      state === 'current' ? 'font-medium text-ink' : state === 'done' ? 'text-ink-2' : 'text-ink-3')}>
+                      currentStep === st.num ? 'font-medium text-ink' : state === 'done' ? 'text-ink-2' : 'text-ink-3')}>
                       {st.title}
                     </span>
                     <span className="hidden lg:block text-xs text-ink-3 truncate">{st.subtitle}</span>
-                    <span className="sr-only">{state === 'done' ? ' (completed)' : state === 'current' ? ' (current step)' : ''}</span>
+                    <span className="sr-only">{[state === 'done' && ' (completed)', currentStep === st.num && ' (current step)'].filter(Boolean).join('')}</span>
                   </span>
                 </button>
                 {i < steps.length - 1 && <span className="flex-1 h-px bg-line mx-2 min-w-4" aria-hidden />}
