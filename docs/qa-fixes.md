@@ -11,7 +11,7 @@ Source: `website_creator_os_V2_QA_QC_Report.pdf` (23 findings). Fixed here = in 
 | C-03 | One generic error, "Email or password is incorrect." — the password is never shown | wrong password and unknown email both show it; page text has no password |
 | C-04 | No default signed-in user: protected pages need a session created by sign-in; sign-out ends it; a session expires after 12 h | after Sign out + full reload, `/clients/client-02/setup` opens the sign-in page, no client data |
 | C-02 (partly) | Only the account email + password sign in (unknown emails refused); 5 wrong tries lock the form for 60 s | `qa-random-user@example.test` + default password is refused |
-| L-03 | Pre-filled fields and "Use Demo Credentials" only in development builds | production bundle has no "Use Demo Credentials" |
+| L-03 | **Not applied, by the owner's decision (19 Nov 2026):** the pre-filled demo fields and "Use Demo Credentials" stay in production. `demo@pucho.ai` always signs in with the account password | demo button signs in even when the browser holds an older profile email |
 | L-04 | Signed-in visitors to `/` go to `/overview`; unknown addresses show a "Page not found" page; sign-in returns to the page that was asked for | `/` → `/overview`, `/nonexistent-route` → Page not found |
 | M-02 | A client id that does not exist shows "Client not found" (no blank, editable form); `new` still starts onboarding | `/clients/does-not-exist/workflow` → Client not found |
 | M-01 | Data loads once per page load (StrictMode double-run guarded) | 1 request each for clients, compliance_history, activities |

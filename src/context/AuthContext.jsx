@@ -18,7 +18,7 @@ const PROFILE_KEY = 'pucho_user_profile';
 const PASSWORD_STORAGE_KEY = 'pucho_user_password';
 const SESSION_KEY = 'pucho_session';
 const LOCK_KEY = 'pucho_login_lock';
-const DEFAULT_EMAIL = 'demo@pucho.ai';
+export const DEFAULT_EMAIL = 'demo@pucho.ai';
 const DEFAULT_PASS = 'demo@2026';
 const SESSION_MS = 12 * 60 * 60 * 1000;
 const MAX_FAILS = 5;
@@ -75,7 +75,10 @@ export function AuthProvider({ children }) {
     const inputEmail = (email || '').trim().toLowerCase();
     const inputPass = (password || '').trim();
 
-    if (inputEmail !== accountEmail || inputPass !== storedPassword) {
+    // The demo email always works (the old app saved whatever email was typed into the profile, so a browser may
+    // hold another account email); the password must still match.
+    const emailOk = inputEmail === accountEmail || inputEmail === DEFAULT_EMAIL;
+    if (!emailOk || inputPass !== storedPassword) {
       const fails = (lock.fails || 0) + 1;
       write(LOCK_KEY, fails >= MAX_FAILS ? { fails: 0, until: Date.now() + LOCK_MS } : { fails, until: 0 });
       return { success: false, message: LOGIN_ERROR };   // generic: never echo a secret (QA C-03)

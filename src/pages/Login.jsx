@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useAuth } from '../context/AuthContext';
+import { useAuth, DEFAULT_EMAIL } from '../context/AuthContext';
 import { useNavigate, useLocation } from 'react-router-dom';
 import Input from '../components/ui/Input';
 
@@ -43,17 +43,18 @@ const Mascot = ({ imageSrc, delay, x, y, size = "w-16 h-16", cursorColor = "text
   );
 };
 
-// Demo sign-in (pre-filled fields + 'Use Demo Credentials') only in development builds (QA L-03).
-const SHOW_DEMO = !import.meta.env.PROD && import.meta.env.VITE_ENVIRONMENT !== 'production';
+// Demo sign-in (pre-filled fields + 'Use Demo Credentials') stays on in every build, production included — the
+// owner's decision (19 Nov 2026), overriding QA L-03.
+const SHOW_DEMO = true;
 
 export default function Login() {
-  const { login, storedPassword, accountEmail } = useAuth();
+  const { login, storedPassword } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
   // back to the page that asked for sign-in (ProtectedRoute passes it), else the overview
   const nextPath = location.state?.from && location.state.from !== '/' ? location.state.from : '/overview';
   const [loading, setLoading] = useState(false);
-  const [email, setEmail] = useState(SHOW_DEMO ? accountEmail : '');
+  const [email, setEmail] = useState(SHOW_DEMO ? DEFAULT_EMAIL : '');
   const [password, setPassword] = useState(SHOW_DEMO ? (storedPassword || '') : '');
   const [error, setError] = useState('');
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
@@ -85,10 +86,10 @@ export default function Login() {
     e.preventDefault();
     setLoading(true);
     setError('');
-    setEmail(accountEmail);
+    setEmail(DEFAULT_EMAIL);
     setPassword(storedPassword || '');
 
-    const result = await login(accountEmail, storedPassword || '');
+    const result = await login(DEFAULT_EMAIL, storedPassword || '');
 
     if (result.success) {
       navigate(nextPath, { replace: true });
