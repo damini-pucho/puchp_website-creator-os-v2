@@ -1,0 +1,16 @@
+{
+  "name": "Website Creator OS",
+  "short_name": "Website Creator",
+  "description": "Plan, approve, build and audit client websites — built on Pucho.ai.",
+  "start_url": "/overview",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#FFFFFF",
+  "theme_color": "#FFFFFF",
+  "lang": "en-IN",
+  "icons": [
+    { "src": "/brand/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" },
+    { "src": "/brand/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/brand/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" }
+  ]
+}

@@ -1,0 +1,303 @@
+@import "tailwindcss";
+
+/* `dark:` follows the app's own switch (html[data-theme="dark"]), not only the OS preference */
+@custom-variant dark (&:where([data-theme='dark'], [data-theme='dark'] *));
+
+/* ==========================================================================================================
+   Website Creator OS V2 — the one token file (Pucho Design System, tone `pucho`; rules: docs/ui-rules.md).
+   This is the only file that names a colour, a radius or a face. Pages and components use the Tailwind names
+   below (bg-surface, text-ink-3, border-line, bg-primary text-on-primary, bg-ok-soft text-ok-text …), never a hex.
+   Light = the DS Light mode; dark = the DS Dark mode, switched by html[data-theme="dark"] (set before first paint
+   in index.html, toggled from the header, persisted as `pucho-theme`).
+   ========================================================================================================== */
+
+/* ── faces (self-hosted, SIL OFL — src/assets/fonts/OFL.txt). Nothing is fetched from a font host. ──────── */
+@font-face {
+  font-family: 'Geist';
+  src: url('./assets/fonts/geist/Geist-Variable.woff2') format('woff2');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Geist Mono';
+  src: url('./assets/fonts/geist/GeistMono-Variable.woff2') format('woff2');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Newsreader';
+  src: url('./assets/fonts/newsreader/Newsreader-Variable.woff2') format('woff2');
+  font-weight: 200 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ── light (DS Light) — also on any [data-theme="light"] island (the login page is always light) ────────── */
+:root, [data-theme='light'] {
+  color-scheme: light;
+  --bg: #FFFFFF;
+  --surface: #FFFFFF;
+  --surface-2: #F5F4F0;            /* bg/subtle: tiles, table heads, selected nav row */
+  --nav-bg: #FEFEFD;
+  --nav-line: #ECEBE6;
+  --line: rgb(20 20 19 / 0.15);    /* hairline */
+  --line-soft: rgb(20 20 19 / 0.08);
+  --line-strong: rgb(20 20 19 / 0.30);
+  --ink: #141413;
+  --ink-2: #45413A;
+  --ink-3: #676F77;                /* text/secondary darkened to 4.5:1 on subtle */
+  --ink-4: #B5AFA4;                /* placeholders, disabled — never body text */
+  --primary: #141413;              /* the primary button is ink in every pucho OS */
+  --primary-hover: #2A2620;
+  --on-primary: #FFFFFF;
+  --accent: #7B5CFF;               /* focus ring, toggles, current step, info — never the primary button */
+  --accent-soft: #EFEAFE;
+  --accent-edge: #D9CEFB;
+  --accent-text: #5B3FE0;
+  --ok: #4C8C6A;   --ok-text: #417559;   --ok-soft: #E8F5EE;   --ok-edge: #C2E4D1;
+  --warn: #B4763B; --warn-text: #966333; --warn-soft: #FBF1DE; --warn-edge: #F0DCB2;
+  --bad: #B45B4E;  --bad-text: #A45448;  --bad-soft: #FBEAE7;  --bad-edge: #F2C6BF;
+  --info: #7B5CFF; --info-text: #5B3FE0; --info-soft: #EFEAFE; --info-edge: #D9CEFB;
+  --cat-1: #7B5CFF; --cat-2: #FF8A6B; --cat-3: #63E0B4; --cat-4: #5B9CF0;
+  --cat-5: #F0C24E; --cat-6: #F06B9C; --cat-7: #4C8C6A; --cat-8: #6C757D;
+  --float-shadow: 0 14px 40px rgb(20 20 19 / 0.10);
+  --toast-shadow: 0 8px 24px -4px rgb(13 13 26 / 0.14);
+  --card-lift: 0 6px 20px rgb(20 20 19 / 0.06);
+  --scrim: rgb(20 20 19 / 0.32);
+  --hover-wash: rgb(20 20 19 / 0.04);
+}
+
+/* ── dark (DS Dark: warm near-black, violet accent; every text token ≥ 4.5:1 on its surface) ───────────── */
+html[data-theme='dark'] {
+  color-scheme: dark;
+  --bg: #141413;
+  --surface: #1D1D1C;
+  --surface-2: #272522;
+  --nav-bg: #161615;
+  --nav-line: rgb(255 255 255 / 0.10);
+  --line: rgb(255 255 255 / 0.12);
+  --line-soft: rgb(255 255 255 / 0.07);
+  --line-strong: rgb(255 255 255 / 0.26);
+  --ink: #F7F6F3;
+  --ink-2: #DEDAD2;
+  --ink-3: #B7B1A6;
+  --ink-4: #8D897F;
+  --primary: #F5F4F0;
+  --primary-hover: #DEDAD2;
+  --on-primary: #141413;
+  --accent: #8B72FF;
+  --accent-soft: rgb(139 114 255 / 0.18);
+  --accent-edge: rgb(139 114 255 / 0.42);
+  --accent-text: #B3A3FF;
+  --ok: #4C8C6A;   --ok-text: #62D69F;   --ok-soft: rgb(76 140 106 / 0.20);   --ok-edge: rgb(98 214 159 / 0.34);
+  --warn: #C98A3F; --warn-text: #F1C25A; --warn-soft: rgb(240 194 78 / 0.14); --warn-edge: rgb(241 194 90 / 0.32);
+  --bad: #C4695B;  --bad-text: #F48A7D;  --bad-soft: rgb(196 105 91 / 0.20);  --bad-edge: rgb(244 138 125 / 0.38);
+  --info: #8B72FF; --info-text: #B3A3FF; --info-soft: rgb(139 114 255 / 0.18); --info-edge: rgb(139 114 255 / 0.42);
+  --float-shadow: 0 14px 40px rgb(0 0 0 / 0.55);
+  --toast-shadow: 0 14px 40px rgb(0 0 0 / 0.55);
+  --card-lift: 0 6px 20px rgb(0 0 0 / 0.35);
+  --scrim: rgb(0 0 0 / 0.6);
+  --hover-wash: rgb(255 255 255 / 0.06);
+}
+
+/* ── Tailwind names → tokens (inline, so every utility follows the theme switch) ─────────────────────── */
+@theme inline {
+  --font-sans: 'Geist', ui-sans-serif, system-ui, 'Noto Sans Devanagari', 'Noto Sans Gujarati', 'Segoe UI', sans-serif;
+  --font-mono: 'Geist Mono', ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
+  --font-serif: 'Newsreader', Georgia, 'Times New Roman', serif;
+  --font-display: 'Geist', ui-sans-serif, system-ui, sans-serif;   /* legacy name: headings stay in Geist */
+  --font-plex: 'IBM Plex Sans', ui-sans-serif, system-ui, 'Noto Sans Devanagari', sans-serif;   /* login page only */
+
+  /* weights: 400 body · 500 labels and buttons · 600 headings — nothing bolder */
+  --font-weight-bold: 600;
+  --font-weight-extrabold: 600;
+  --font-weight-black: 600;
+
+  --color-canvas: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-subtle: var(--surface-2);
+  --color-nav: var(--nav-bg);
+  --color-nav-line: var(--nav-line);
+  --color-line: var(--line);
+  --color-line-soft: var(--line-soft);
+  --color-line-strong: var(--line-strong);
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-ink-3: var(--ink-3);
+  --color-ink-4: var(--ink-4);
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-on-primary: var(--on-primary);
+  --color-accent: var(--accent);
+  --color-accent-soft: var(--accent-soft);
+  --color-accent-edge: var(--accent-edge);
+  --color-accent-text: var(--accent-text);
+  --color-ok: var(--ok);     --color-ok-text: var(--ok-text);     --color-ok-soft: var(--ok-soft);     --color-ok-edge: var(--ok-edge);
+  --color-warn: var(--warn); --color-warn-text: var(--warn-text); --color-warn-soft: var(--warn-soft); --color-warn-edge: var(--warn-edge);
+  --color-bad: var(--bad);   --color-bad-text: var(--bad-text);   --color-bad-soft: var(--bad-soft);   --color-bad-edge: var(--bad-edge);
+  --color-info: var(--info); --color-info-text: var(--info-text); --color-info-soft: var(--info-soft); --color-info-edge: var(--info-edge);
+  --color-cat-1: var(--cat-1); --color-cat-2: var(--cat-2); --color-cat-3: var(--cat-3); --color-cat-4: var(--cat-4);
+  --color-cat-5: var(--cat-5); --color-cat-6: var(--cat-6); --color-cat-7: var(--cat-7); --color-cat-8: var(--cat-8);
+  --color-scrim: var(--scrim);
+  --color-hover: var(--hover-wash);
+
+  /* legacy names still in older markup — mapped onto the DS so nothing renders off-system */
+  --color-canvas-soft: var(--surface-2);
+  --color-ink-muted: var(--ink-3);
+  --color-ink-faint: var(--ink-3);
+  --color-brand: var(--primary);
+  --color-brand-50: var(--surface-2);
+  --color-brand-600: var(--primary);
+  --color-brand-700: var(--primary-hover);
+  --color-ok-bg: var(--ok-soft);
+  --color-warn-bg: var(--warn-soft);
+  --color-err: var(--bad-text);
+  --color-err-bg: var(--bad-soft);
+  --color-off: var(--ink-3);
+  --color-off-bg: var(--surface-2);
+
+  /* radius: 8 chips & S buttons · 12 controls, M/L buttons, tiles · 16 cards · 20 overlays · full = pills */
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 12px;
+  --radius-2xl: 16px;
+  --radius-3xl: 20px;
+
+  /* depth is a hairline: no resting shadow; only what floats gets one */
+  --shadow-card: none;
+  --shadow-card-hover: none;
+  --shadow-soft: none;
+  --shadow-focus: 0 0 0 1.5px var(--accent);
+  --shadow-float: var(--float-shadow);
+  --shadow-toast: var(--toast-shadow);
+  --shadow-lift: var(--card-lift);
+}
+
+/* ── base ─────────────────────────────────────────────────────────────────────────────────────────────── */
+@layer base {
+  html { background: var(--bg); }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--font-sans);
+    font-size: 14px;
+    line-height: 1.5;
+    font-variant-numeric: tabular-nums;   /* tabular figures on every number */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  h1, h2, h3, h4 { font-weight: 600; color: var(--ink); letter-spacing: 0; }
+  button, [role='button'] { cursor: pointer; }
+  button:disabled { cursor: not-allowed; }
+  ::placeholder { color: var(--ink-4); opacity: 1; }
+  :focus-visible { outline: 1.5px solid var(--accent); outline-offset: 2px; }
+  input:focus-visible, textarea:focus-visible, select:focus-visible { outline: none; }
+  ::selection { background: var(--accent-soft); color: var(--ink); }
+  hr { border-color: var(--line); }
+}
+
+/* ── shared component classes (for markup that is not one of the React primitives) ──────────────────── */
+@layer components {
+  /* DS Label/Mono: uppercase eyebrow, Geist Mono, 12 px floor */
+  .label-mono {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    line-height: 16px;
+    font-weight: 400;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+  }
+  /* DS text field: 44 h · r12 · hairline · hover @30 % · focus violet 1.5 px · error red */
+  .field {
+    width: 100%;
+    min-height: 44px;
+    padding: 10px 12px;
+    border-radius: 12px;
+    border: 1px solid var(--line);
+    background: var(--surface);
+    color: var(--ink);
+    font-size: 14px;
+    line-height: 22px;
+    transition: border-color 120ms ease, box-shadow 120ms ease;
+    outline: none;
+  }
+  .field:hover { border-color: var(--line-strong); }
+  .field:focus, .field:focus-within { border-color: var(--accent); box-shadow: 0 0 0 0.5px var(--accent); }
+  .field[aria-invalid='true'] { border-color: var(--bad); box-shadow: 0 0 0 0.5px var(--bad); }
+  .field:disabled { background: var(--surface-2); color: var(--ink-4); }
+  textarea.field { min-height: 88px; resize: vertical; }
+  select.field {
+    appearance: none;
+    padding-right: 36px;
+    background-image: linear-gradient(45deg, transparent 50%, var(--ink-3) 50%), linear-gradient(135deg, var(--ink-3) 50%, transparent 50%);
+    background-position: calc(100% - 18px) 50%, calc(100% - 13px) 50%;
+    background-size: 5px 5px, 5px 5px;
+    background-repeat: no-repeat;
+  }
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+  }
+}
+
+/* ── motion: 120 / 200 / 280 ms, opacity + ≤ 8 px, no bounce ──────────────────────────────────────────── */
+@keyframes wco-fade-in { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+@keyframes wco-fade { from { opacity: 0; } to { opacity: 1; } }
+@keyframes wco-slide-in { from { opacity: 0; transform: translateX(-8px); } to { opacity: 1; transform: none; } }
+@keyframes wco-slide-in-right { from { opacity: 0; transform: translateX(8px); } to { opacity: 1; transform: none; } }
+@keyframes wco-pop { from { opacity: 0; transform: scale(0.99) translateY(4px); } to { opacity: 1; transform: none; } }
+@keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }   /* login page only */
+
+.animate-fade-in { animation: wco-fade-in 280ms cubic-bezier(0.2, 0, 0, 1) both; }
+.animate-fade { animation: wco-fade 200ms ease-out both; }
+.animate-slide-in { animation: wco-slide-in 200ms cubic-bezier(0.2, 0, 0, 1) both; }
+.animate-slide-in-right { animation: wco-slide-in-right 200ms cubic-bezier(0.2, 0, 0, 1) both; }
+.animate-scale-up { animation: wco-pop 200ms cubic-bezier(0.2, 0, 0, 1) both; }
+.animate-float { animation: float 6s ease-in-out infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-delay: 0ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    transition-delay: 0ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ── scrollbars ───────────────────────────────────────────────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--line); border-radius: 999px; border: 2px solid transparent; background-clip: padding-box; }
+::-webkit-scrollbar-thumb:hover { background: var(--line-strong); background-clip: padding-box; }
+.no-scrollbar { scrollbar-width: none; }
+.no-scrollbar::-webkit-scrollbar { display: none; }
+
+/* ── toasts (sonner) = the DS toast: surface, hairline, r16, toast shadow ─────────────────────────────── */
+[data-sonner-toaster] [data-sonner-toast] {
+  background: var(--surface) !important;
+  color: var(--ink) !important;
+  border: 1px solid var(--line) !important;
+  border-radius: 16px !important;
+  box-shadow: var(--toast-shadow) !important;
+  font-family: var(--font-sans) !important;
+  font-size: 14px !important;
+}
+[data-sonner-toast] [data-description] { color: var(--ink-3) !important; font-size: 13px !important; }
+[data-sonner-toast][data-type='success'] [data-icon] { color: var(--ok); }
+[data-sonner-toast][data-type='error'] [data-icon] { color: var(--bad); }
+[data-sonner-toast][data-type='warning'] [data-icon] { color: var(--warn); }
+[data-sonner-toast][data-type='info'] [data-icon] { color: var(--accent); }
+
+/* ── print: the proposal and handoff pages print on white ─────────────────────────────────────────────── */
+@media print {
+  html, body { background: #FFFFFF !important; color: #141413 !important; }
+  [data-print-hide] { display: none !important; }
+}

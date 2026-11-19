@@ -1,0 +1,2 @@
+# Generated data exports contain customer contact details — never commit them
+*.sql

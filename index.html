@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>Website Creator OS</title>
+    <meta name="description" content="Plan, approve, build and audit client websites — Website Creator OS, built on Pucho.ai." />
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <link rel="apple-touch-icon" href="/brand/icon-192.png" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <meta name="theme-color" content="#FFFFFF" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-title" content="Website Creator" />
+    <!-- Theme before first paint (no light flash): saved choice, else the system preference -->
+    <script>
+      (function () {
+        try {
+          var s = localStorage.getItem('pucho-theme');
+          var t = s === 'dark' || s === 'light' ? s : (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+          document.documentElement.setAttribute('data-theme', t);
+        } catch (e) {}
+      })();
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <noscript>Website Creator OS needs JavaScript to run.</noscript>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>

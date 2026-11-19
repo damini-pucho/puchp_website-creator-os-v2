@@ -1,0 +1,15 @@
+# Dependencies and build output (rebuild with: npm install rollup@4.62.4 --no-save && npm run build)
+node_modules/
+dist/
+.vite/
+
+# Secrets: real values live only in .env and the portal env file
+.env
+.env.*
+!.env.example
+
+# Logs and OS files
+*.log
+npm-debug.log*
+.DS_Store
+Thumbs.db

@@ -1,0 +1,9 @@
+# The deploy image is Linux: keep shell scripts and configs LF on every checkout (a CRLF entrypoint breaks the container)
+* text=auto
+*.sh text eol=lf
+deploy/Dockerfile text eol=lf
+deploy/nginx.conf text eol=lf
+deploy/bin/postgrest binary
+*.woff2 binary
+*.png binary
+*.ico binary
